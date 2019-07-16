@@ -6,9 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import br.com.alura.financask.R
+import br.com.alura.financask.extesion.formataParaDataBrasil
 import br.com.alura.financask.model.TransacaoItem
 import kotlinx.android.synthetic.main.transacao_item.view.*
-import java.text.SimpleDateFormat
 
 // BaseAdapter -- Transforma uma classe em um adapter - nesse caso tranformar os itens de uma lista
 //alt + enter = implements members = criar as funções basicas de um adapter
@@ -31,12 +31,7 @@ class ListaTransacoesAdapter(transacoes: List<TransacaoItem>,
         //Atribuindo valores aos atribuotos da view, de acordo com o item passado (Equivalente ao setText)
         viewItemTransacao.transacao_valor.text = transacaoItem.valor.toString()
         viewItemTransacao.transacao_categoria.text = transacaoItem.categoria
-
-        //Formatando a hora, e atribuindo valor a view
-        val formatoDataBrasil = "dd/MM/YYYY"
-        val format = SimpleDateFormat(formatoDataBrasil)
-        val dataFormatada = format.format(transacaoItem.data.time)
-        viewItemTransacao.transacao_data.text = dataFormatada
+        viewItemTransacao.transacao_data.text = transacaoItem.data.formataParaDataBrasil() //Função criada dentro da pasta extension
 
         return viewItemTransacao
     }
