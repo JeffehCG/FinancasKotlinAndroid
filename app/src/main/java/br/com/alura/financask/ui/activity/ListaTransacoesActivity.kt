@@ -5,10 +5,10 @@ import android.support.v7.app.AppCompatActivity
 import br.com.alura.financask.R
 import br.com.alura.financask.model.Tipo
 import br.com.alura.financask.model.TransacaoItem
+import br.com.alura.financask.ui.ResumoView
 import br.com.alura.financask.ui.adapter.ListaTransacoesAdapter
-import kotlinx.android.synthetic.main.activity_lista_transacoes.* //Com esse import do kotlin não é mais preciso ficar procurando os componentes da view pelo id // em vez de usar um findViewById e colocado o id direto
+import kotlinx.android.synthetic.main.activity_lista_transacoes.*
 import java.math.BigDecimal
-import java.util.*
 
 class ListaTransacoesActivity : AppCompatActivity() { //: é equivalente ao extends - para pegar determinada classe como herença
 
@@ -19,7 +19,20 @@ class ListaTransacoesActivity : AppCompatActivity() { //: é equivalente ao exte
 
         val transacoes : List<TransacaoItem> = transacoesDeExemplo()
 
+        //Adicionando os valores do resumo
+        configuraResumo(transacoes)
+
+        //Exibindo lista de transacoes na view
         configuraLista(transacoes)
+    }
+
+    private fun configuraResumo(transacoes: List<TransacaoItem>) {
+        val view = window.decorView //Pegando a view dessa activity
+        //Instanciando o resumoView e calculando seus valores
+        val resumoView = ResumoView(this,view,transacoes)
+                resumoView.adicionaTotalReceitaAoResumo()
+                resumoView.adicionaTotalDespesaAoResumo()
+                resumoView.adicionaTotalDoResumo()
     }
 
     private fun configuraLista(transacoes: List<TransacaoItem>) {
@@ -43,11 +56,11 @@ class ListaTransacoesActivity : AppCompatActivity() { //: é equivalente ao exte
                         categoria = "Casa",
                         tipo = Tipo.DESPESA),
                 TransacaoItem(
-                        valor = BigDecimal(500.0),
+                        valor = BigDecimal(400.0),
                         categoria = "Premio",
                         tipo = Tipo.RECEITA),
                 TransacaoItem(
-                        valor = BigDecimal(50.0),
+                        valor = BigDecimal(379.5),
                         categoria = "Almoço de final de semana",
                         tipo = Tipo.DESPESA)
         )
