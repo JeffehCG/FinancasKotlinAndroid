@@ -1,23 +1,25 @@
 package br.com.alura.financask.ui.adapter
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import br.com.alura.financask.R
 import br.com.alura.financask.extesion.formataParaDataBrasil
+import br.com.alura.financask.extesion.formatoMoedaBrasil
+import br.com.alura.financask.extesion.limitaEmAte
+import br.com.alura.financask.model.Tipo
 import br.com.alura.financask.model.TransacaoItem
 import kotlinx.android.synthetic.main.transacao_item.view.*
 
 // BaseAdapter -- Transforma uma classe em um adapter - nesse caso tranformar os itens de uma lista
 //alt + enter = implements members = criar as funções basicas de um adapter
-class ListaTransacoesAdapter(transacoes: List<TransacaoItem>,
-                             context: Context) : BaseAdapter(){
+class ListaTransacoesAdapter(private val transacoes: List<TransacaoItem>,
+                             private val context: Context) : BaseAdapter(){
 
-    //Transformando o contructor passado em atributos
-    private val transacoes = transacoes
-    private val context = context
+    private val limiteDaCategoria = 14
 
     //Função que ira criar a view (Retorna as view para cada item da lista)
     //É preciso passar a posição do item, a view em ci, e a viewPai
@@ -29,11 +31,35 @@ class ListaTransacoesAdapter(transacoes: List<TransacaoItem>,
         val transacaoItem = transacoes[posicao] //Recebendo o item da transação
 
         //Atribuindo valores aos atribuotos da view, de acordo com o item passado (Equivalente ao setText)
-        viewItemTransacao.transacao_valor.text = transacaoItem.valor.toString()
-        viewItemTransacao.transacao_categoria.text = transacaoItem.categoria
-        viewItemTransacao.transacao_data.text = transacaoItem.data.formataParaDataBrasil() //Função criada dentro da pasta extension
+        adicionaValorEIcone(transacaoItem, viewItemTransacao)
+        adicionaCategoria(viewItemTransacao, transacaoItem)
+        adicionaData(viewItemTransacao, transacaoItem) //Função criada dentro da pasta extension
 
         return viewItemTransacao
+    }
+
+    private fun adicionaData(viewItemTransacao: View, transacaoItem: TransacaoItem) {
+        viewItemTransacao.transacao_data.text = transacaoItem.data.formataParaDataBrasil()
+    }
+
+    private fun adicionaCategoria(viewItemTransacao: View, transacaoItem: TransacaoItem) {
+        viewItemTransacao.transacao_categoria.text = transacaoItem.categoria.limitaEmAte(limiteDaCategoria)
+    }
+
+    private fun adicionaValorEIcone(transacaoItem: TransacaoItem, viewItemTransacao: View) {
+        //Identificando se a transação é uma despesa ou receita
+        var cor = 0
+        var icone = 0
+        if (transacaoItem.tipo == Tipo.RECEITA) {
+            cor = ContextCompat.getColor(context, R.color.receita)//Alteranco a cor do valor
+            icone = R.drawable.icone_transacao_item_receita//Adicionando icone
+        } else {
+            cor = ContextCompat.getColor(context, R.color.despesa)//Alteranco a cor do valor
+            icone = R.drawable.icone_transacao_item_despesa//Adicionando icone
+        }
+        viewItemTransacao.transacao_valor.setTextColor(cor)
+        viewItemTransacao.transacao_icone.setBackgroundResource(icone)
+        viewItemTransacao.transacao_valor.text = transacaoItem.valor.formatoMoedaBrasil()
     }
 
     //Retornando o item da transação, de acordo com a posicao passada (exemplo - como array[0])

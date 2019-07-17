@@ -10,5 +10,4 @@ fun Calendar.formataParaDataBrasil() : String{
     val formatoDataBrasil = "dd/MM/YYYY"
     val format = SimpleDateFormat(formatoDataBrasil)
     return format.format(this.time)
-
 }
