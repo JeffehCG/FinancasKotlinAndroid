@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.transacao_item.view.*
 // BaseAdapter -- Transforma uma classe em um adapter - nesse caso tranformar os itens de uma lista
 //alt + enter = implements members = criar as funções basicas de um adapter
 class ListaTransacoesAdapter(private val transacoes: List<TransacaoItem>,
-                             private val context: Context) : BaseAdapter(){
+                             private val context: Context) : BaseAdapter() {
 
     private val limiteDaCategoria = 14
 

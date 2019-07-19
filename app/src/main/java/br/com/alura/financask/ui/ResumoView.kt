@@ -23,7 +23,7 @@ class ResumoView(private val context: Context,
     private val corDespesa = ContextCompat.getColor(context, R.color.despesa)
 
     //Função que inicializara todas as outras funções, para atualizar valores do resumo
-    fun atualizaResumo(){
+    fun atualizaResumo() {
         adicionaTotalReceitaAoResumo()
         adicionaTotalDespesaAoResumo()
         adicionaTotalDoResumo()
@@ -32,29 +32,30 @@ class ResumoView(private val context: Context,
     private fun adicionaTotalReceitaAoResumo() {
         val totalReceita = resumo.receita
         //Atribuindo valor a view
-        with(view.resumo_card_receita){
+        with(view.resumo_card_receita) {
             setTextColor(corReceita) //Cor
             text = totalReceita.formatoMoedaBrasil() //Valor
         }
+
     }
 
     private fun adicionaTotalDespesaAoResumo() {
         val totalDespesa = resumo.despesa
         //Atribuindo valor a view
-        with(view.resumo_card_despesa){
+        with(view.resumo_card_despesa) {
             setTextColor(corDespesa) //Cor
             text = totalDespesa.formatoMoedaBrasil() //Valor
         }
     }
 
-    private fun adicionaTotalDoResumo(){
+    private fun adicionaTotalDoResumo() {
 
         val totalResumo = resumo.total()
         //Retornando a cor de acordo com o valor total
         val cor = definindoCorTotal(totalResumo)
 
         //Atribuindo valor a view
-        with(view.resumo_card_total){
+        with(view.resumo_card_total) {
             setTextColor(cor) //Cor
             text = totalResumo.formatoMoedaBrasil()
         }
@@ -68,3 +69,14 @@ class ResumoView(private val context: Context,
         }
     }
 }
+
+//view.resumo_card_receita.setTextColor(corReceita) // !! é usado quando o valor pode vir vazio, então você esta garantindo que o valor vira
+
+//view?.let { //O que esta dentro do let só sera executado se a propriedade view não for nulla
+//    with(view.resumo_card_receita){
+//        setTextColor(corReceita) //Cor
+//        text = totalReceita.formatoMoedaBrasil() //Valor
+//    }
+//}
+
+//ctrl + alt + l = identa codigo

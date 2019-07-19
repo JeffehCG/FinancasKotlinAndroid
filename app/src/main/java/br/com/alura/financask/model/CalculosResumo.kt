@@ -2,7 +2,7 @@ package br.com.alura.financask.model
 
 import java.math.BigDecimal
 
-class CalculosResumo (private val transacoes: List<TransacaoItem>){
+class CalculosResumo(private val transacoes: List<TransacaoItem>) {
 
     //Percorrendo a lista de transações para somar os valores
     val receita: BigDecimal get() = calcularTipo(Tipo.RECEITA)
@@ -10,10 +10,10 @@ class CalculosResumo (private val transacoes: List<TransacaoItem>){
     val despesa: BigDecimal get() = calcularTipo(Tipo.DESPESA)
 
     //Funções de uma linha podem ser declaradas dessa forma
-    fun total(): BigDecimal  = receita.subtract(despesa)
+    fun total(): BigDecimal = receita.subtract(despesa)
 
     //Metodo para efetuar o calculo pelos tipos
-    private fun calcularTipo(tipo: Tipo) : BigDecimal{
+    private fun calcularTipo(tipo: Tipo): BigDecimal {
 //        for (transacao in transacoes) {
 //            if (transacao.tipo == Tipo.RECEITA) {
 //                totalReceita = totalReceita.plus(transacao.valor) //Somando valor da receita
