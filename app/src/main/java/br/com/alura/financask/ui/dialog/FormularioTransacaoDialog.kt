@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import br.com.alura.financask.R
-import br.com.alura.financask.delegate.TrasacaoDelegate
+import br.com.alura.financask.delegate.TransacaoDelegate
 import br.com.alura.financask.extesion.converteParaCalendar
 import br.com.alura.financask.extesion.formataParaDataBrasil
 import br.com.alura.financask.model.Tipo
@@ -31,17 +31,17 @@ abstract class FormularioTransacaoDialog (private val viewGroup: ViewGroup,
     protected val campoCategoria = viewCriadaAddReceita.form_transacao_categoria
     abstract protected val tituloBotaoPositivo : String //Propriedade abstract
 
-    fun chamaDialog(tipo: Tipo, transacaoDelegate: TrasacaoDelegate) {
+    fun chamaDialog(tipo: Tipo, delegate: (transacao: TransacaoItem) -> Unit) { //Recebendo delegate para efetuar a atualização da lista de transações
 
         //Alterando valores da View
         configuraCampoData()
         configuraCampoCategoria(tipo)
 
         //Criando o Alert (Tela que aparece a apertar o botão)
-        configuraFormulario(tipo, transacaoDelegate)
+        configuraFormulario(tipo, delegate)
     }
 
-    private fun configuraFormulario(tipo: Tipo, transacaoDelegate: TrasacaoDelegate) {
+    private fun configuraFormulario(tipo: Tipo, delegate: (transacao: TransacaoItem) -> Unit) {
 
         val titulo = getTituloPeloTipo(tipo)
 
@@ -71,7 +71,7 @@ abstract class FormularioTransacaoDialog (private val viewGroup: ViewGroup,
                             //O Delegate tem a função de uma classe conseguir se comunicar com as funções de uma activity
                             // Nesse caso, para conseguir adicionar a transação a lista, e fechar o botão)
                             //São passadas a as funções da activity dentro do delegate, para elas serem chamadas aqui na classe
-                            transacaoDelegate.delegate(transacaoCriada)
+                            delegate(transacaoCriada)
 
                         })
                 .setNegativeButton("Cancelar", null)
